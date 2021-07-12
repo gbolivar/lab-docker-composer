@@ -1,2 +1,2 @@
-# lab-docker-composer
+# Lab Docker Composer
 Testing Docker composer
