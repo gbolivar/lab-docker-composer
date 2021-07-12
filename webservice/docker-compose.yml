@@ -1,0 +1,39 @@
+version: "3.2"
+services:
+    webserver:
+      image: nginx:alpine
+      container_name: service-nginx
+      working_dir: /app
+      hostname: nginx-vm
+      restart: always
+      volumes:
+          - ../main/app:/app
+          - ../main/log:/log
+          - ../main/config/nginx/conf.d:/etc/nginx/conf.d/
+      ports:
+       - "8800:80"
+      environment:
+        VIRTUAL_HOST: nginx.localhost
+      networks:
+        lab_net:
+          ipv4_address: 10.10.10.5 
+
+    php-fpm:
+      build: ../main/config/php-fpm
+      container_name: machine-phpfpm
+      working_dir: /app
+      hostname: php-fpm-vm
+      restart: always
+      volumes:
+        - ../main/app:/app
+        - ../main/log:/app/log
+      environment:
+        VIRTUAL_HOST: phpfpm.localhost
+      networks:
+        lab_net:
+          ipv4_address: 10.10.10.4
+
+networks:
+  lab_net:
+    external:
+      name: network_lab_net

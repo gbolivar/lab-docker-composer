@@ -1,0 +1,23 @@
+version: "3.1"
+services:
+  postgres:
+    container_name: database-psql
+    image: postgres:12
+    restart: always
+    hostname: database-psql-vm
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: touch_center_db
+      VIRTUAL_HOST: psql.localhost
+    ports:
+      - "5555:5432"
+    volumes:
+      - ../data/postgres:/var/lib/postgres
+    networks:
+      lab_net:
+        ipv4_address: 10.10.10.2
+networks:
+  lab_net:
+    external:
+      name: network_lab_net
